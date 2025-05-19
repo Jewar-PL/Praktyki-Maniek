@@ -37,6 +37,9 @@
 - Aktualizacja projektu odbywa się **manualnie** przez **GitHub Desktop (fetch/pull)**
 - Jeśli przeglądarka nie odświeża zmian, użyj **Shift + F5**
 
+### NSSM(https://github.com/kirillkovalenko/nssm) - Watchdogi dla: (MySQL, Apache)
+- **Wykonaj poniższe punkty tylko wtedy, kiedy maniek nie działa poprawnie !**
+  - Folder zawierający NSSM Praktyki-Maniek\misc\nssm-2.24
 ---
 
 ## 🗺️ Dodawanie punktu do mapy

@@ -1,0 +1,12 @@
+- **Configure Electron in separate repository** 
+    - Create some sort of config for specifing what urls to run with what arguments (args for Chrome)
+    - Make sure that webApp restarts after crash
+    - Make sure that Electron app won't crash and if so restart whole machine !
+- **Add NSSM menager to the project for better services managment** 
+- **AHK** :
+    - Create folder only for ahk scripts with their code
+    - Build every single script into executable
+    - Make sure to kill only mouse blocking script
+- **Configure Launch Sequence to work with electron app** 
+
+- **Add Readme for new features and mechanics!** 
