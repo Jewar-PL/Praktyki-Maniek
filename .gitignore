@@ -1,0 +1,7 @@
+example-videos/
+videos/
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.webm
