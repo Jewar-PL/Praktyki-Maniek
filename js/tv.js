@@ -465,5 +465,5 @@ const toggleManiekMessage = (peopleAmount = 0) => {
     }
 };
 
-toggleManiekMessage();
-setInterval(toggleManiekMessage, 15000);
+// toggleManiekMessage();
+// setInterval(toggleManiekMessage, 15000);
