@@ -12,7 +12,7 @@
     <div class="upper-controls">
         <!-- Video container -->
         <video id="vidplayer" autoplay muted>
-            <source id="vidsource" src="./example-videos/LEGO1.mp4" type="video/mp4">
+            <source id="vidsource" type="video/mp4">
         </video>
 
         <!-- Bell schedule with highlight -->
@@ -59,12 +59,24 @@
 
     <!-- Videos from file transfer -->
     <div id="data-pass"><?php
-            $dir = './example-videos';
-            $videos = scandir($dir,1);
-            foreach ($videos as $video) {
-                if($video == ".." || $video == ".") continue;
-                echo "$video ";
-            }
+        include_once "misc/videoUtils.php";
+
+        $usb = GetFirstUSBDriveLetter();
+        CopyVideosFromUSBDrive($usb);
+
+        list($priorityVideos, $regularVideos) = GetAllVideos();
+        $playlist = GetPlaylist($priorityVideos, $regularVideos);
+
+        $projectRoot = realpath(__DIR__ . "/..") . DIRECTORY_SEPARATOR;
+        $publicPath  = '/videos';
+
+        $relativePlaylist = array_map(function($absPath) use ($projectRoot) {
+            $rel = str_replace($projectRoot, '', $absPath); 
+            $rel = str_replace('\\', '/', $rel);
+            return '/' . $rel;
+        }, $playlist);
+
+        echo json_encode($relativePlaylist);
     ?></div>
 
     <script src="js/tv.js">
