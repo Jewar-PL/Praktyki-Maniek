@@ -4,27 +4,37 @@ const maniekTextContainerTextContainer = maniekTextContainer.querySelector("#man
 const maniekTextConatinerImg = maniekTextContainer.querySelector('.maniek-face');
 
 //Retrieving videos
-const dir = '/example-videos';
-const passed_data = document.getElementById("data-pass").innerHTML;
-let videosList = passed_data.split(' ');
-videosList.pop();
+const passedData = document.getElementById("data-pass").innerHTML;
+const videosList = JSON.parse(passedData);
 
-//Videos changer
 const videoPlayer = document.getElementById("vidplayer");
-// videoPlayer.playbackRate = 16;
 const videoSource = document.getElementById("vidsource");
 
+let currentIndex = 0;
+videoSource.src = videosList[currentIndex];
+videoPlayer.load();
+videoPlayer.play();
+
 videoPlayer.addEventListener("ended", (event) => {
-    let previousSource = videoSource.src;
-    let nextSource;
-    do{
-        nextSource = `${dir}/${videosList[Math.floor(Math.random() * videosList.length)]}`;
-    } while(previousSource.includes(nextSource));
-    videoSource.src = "."+nextSource;
-    
+    currentIndex++;
+    if (currentIndex >= videosList.length) currentIndex = 0;
+
+    videoSource.src = videosList[currentIndex];
     videoPlayer.load();
     videoPlayer.play();
 });
+
+// videoPlayer.addEventListener("ended", (event) => {
+//     let previousSource = videoSource.src;
+//     let nextSource;
+//     do{
+//         nextSource = `${dir}/${videosList[Math.floor(Math.random() * videosList.length)]}`;
+//     } while(previousSource.includes(nextSource));
+//     videoSource.src = "."+nextSource;
+    
+//     videoPlayer.load();
+//     videoPlayer.play();
+// });
 
 const clock = document.getElementById("clock");
 const timer = document.getElementById("timer");
@@ -172,7 +182,7 @@ const getAmountOfPeopleInFrontOfTv = async () => {
         }
     }
 };
-readAmountOfPeopleTimeout = setTimeout(getAmountOfPeopleInFrontOfTv, 1000);
+// readAmountOfPeopleTimeout = setTimeout(getAmountOfPeopleInFrontOfTv, 1000);
 
 
 let messagesContext = {
@@ -269,7 +279,7 @@ const getHolidays = async() => {
     }
 };
 // Pobierz je raz
-getHolidays();
+// getHolidays();
 
 const getAvailableMessages = () => {
     // Funkcja na podstawie wielu czynnikow wybiera wiadomosci pasujące do aktualnego wydarzenia w ciagu dnia, lub roku !
