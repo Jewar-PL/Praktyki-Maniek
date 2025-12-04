@@ -32,10 +32,7 @@ function GetVideosFromFolder($folder, $extensions = ["mp4"]) {
     return $videos;
 }
 
-function Test() {
-    echo "dir: " . __DIR__ . "<br>";
-}
-
+// TODO: Refactor???
 function CopyVideosFromUSBDrive($driveLetter, $extensions = ["mp4"]) {
     if ($driveLetter === null) return;
 
@@ -48,19 +45,47 @@ function CopyVideosFromUSBDrive($driveLetter, $extensions = ["mp4"]) {
     if (!is_dir($priorityDest)) return;
     if (!is_dir($regularDest)) return;
 
+    // Filmy na USB
     $priorityVideosUSB = GetVideosFromFolder($prioritySrc, $extensions);
     $regularVideosUSB = GetVideosFromFolder($regularSrc, $extensions);
+
+    // Filmy lokalne
+    $priorityVideosLocal = GetVideosFromFolder($priorityDest, $extensions);
+    $regularVideosLocal = GetVideosFromFolder($regularDest, $extensions);
+
+    // Mapy nazw
+    $priorityNamesUSB = array_map("basename", $priorityVideosUSB);
+    $regularNamesUSB = array_map("basename", $regularVideosUSB);
+
+    $priorityNamesLocal = array_map("basename", $priorityVideosLocal);
+    $regularNamesLocal = array_map("basename", $regularVideosLocal);
 
     foreach ($priorityVideosUSB as $src) {
         $file = basename($src);
         $dst = $priorityDest . $file;
-        copy($src, $dst);
+
+        if (!in_array($file, $priorityNamesLocal)) copy($src, $dst);
     }
 
     foreach ($regularVideosUSB as $src) {
         $file = basename($src);
         $dst = $regularDest . $file;
-        copy($src, $dst);
+
+        if (!in_array($file, $regularNamesLocal)) copy($src, $dst);
+    }
+
+    foreach ($priorityVideosLocal as $localFile) {
+        $file = basename($localFile);
+        if (!in_array($file, $priorityNamesUSB)) {
+            unlink($localFile);
+        }
+    }
+
+    foreach ($regularVideosLocal as $localFile) {
+        $file = basename($localFile);
+        if (!in_array($file, $regularNamesUSB)) {
+            unlink($localFile);
+        }
     }
 }
 
