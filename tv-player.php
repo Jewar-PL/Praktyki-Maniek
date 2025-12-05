@@ -57,28 +57,6 @@
         </div>
     </div>
 
-    <!-- Videos from file transfer -->
-    <div id="data-pass"><?php
-        include_once "misc/videoUtils.php";
-
-        $usb = GetFirstUSBDriveLetter();
-        CopyVideosFromUSBDrive($usb);
-
-        list($priorityVideos, $regularVideos) = GetAllVideos();
-        $playlist = GetPlaylist($priorityVideos, $regularVideos);
-
-        $projectRoot = realpath(__DIR__ . "/..") . DIRECTORY_SEPARATOR;
-        $publicPath  = '/videos';
-
-        $relativePlaylist = array_map(function($absPath) use ($projectRoot) {
-            $rel = str_replace($projectRoot, '', $absPath); 
-            $rel = str_replace('\\', '/', $rel);
-            return '/' . $rel;
-        }, $playlist);
-
-        echo json_encode($relativePlaylist);
-    ?></div>
-
     <script src="js/tv.js">
     </script>
 </body>
