@@ -3,17 +3,28 @@ const maniekTextContainer = document.querySelector("#maniek-text-container");
 const maniekTextContainerTextContainer = maniekTextContainer.querySelector("#maniek-text-container-text-container");
 const maniekTextConatinerImg = maniekTextContainer.querySelector('.maniek-face');
 
-//Retrieving videos
-const passedData = document.getElementById("data-pass").innerHTML;
-const videosList = JSON.parse(passedData);
-
 const videoPlayer = document.getElementById("vidplayer");
 const videoSource = document.getElementById("vidsource");
 
+let videosList = [];
 let currentIndex = 0;
-videoSource.src = videosList[currentIndex];
-videoPlayer.load();
-videoPlayer.play();
+
+async function refreshPlaylist() {
+    try {
+        const response = await fetch("./misc/getPlaylist.php");
+        const newList = await response.json();
+
+        if (JSON.stringify(videosList) !== JSON.stringify(newList)) {
+            console.log("Aktualizacja playlisty...");
+
+            videosList = newList;
+
+            if (currentIndex >= videosList.length) currentIndex = 0;
+        }
+    } catch (err) {
+        console.error("Błąd przy odświeżeniu playlisty: ", err);
+    }
+}
 
 videoPlayer.addEventListener("ended", (event) => {
     currentIndex++;
@@ -24,17 +35,17 @@ videoPlayer.addEventListener("ended", (event) => {
     videoPlayer.play();
 });
 
-// videoPlayer.addEventListener("ended", (event) => {
-//     let previousSource = videoSource.src;
-//     let nextSource;
-//     do{
-//         nextSource = `${dir}/${videosList[Math.floor(Math.random() * videosList.length)]}`;
-//     } while(previousSource.includes(nextSource));
-//     videoSource.src = "."+nextSource;
+(async() => {
+    await refreshPlaylist();
     
-//     videoPlayer.load();
-//     videoPlayer.play();
-// });
+    if (videosList.length > 0) {
+        videoSource.src = videosList[currentIndex];
+        videoPlayer.load();
+        videoPlayer.play();
+    }
+})();
+
+setInterval(refreshPlaylist, 15000);
 
 const clock = document.getElementById("clock");
 const timer = document.getElementById("timer");
@@ -113,7 +124,7 @@ function lessonCheck(currentHour, currentMinute) {
             realTimeLeft = timeLeft;
             if(timeLeft<=0) {
                 timeLeft = vMinute-5-currentMinute;
-                console.log(timeLeft);
+                // console.log(timeLeft);
                 if(currentLesson == 3) timeLeft+=10;
                 if(timeLeft < 0) timeLeft+=60;
                 realTimeLeft = timeLeft;
