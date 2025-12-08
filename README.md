@@ -17,12 +17,7 @@ Na każde dwa regularne filmy przypada jeden priorytetowy:
 2. Podłącz dysk USB do komputera/laptopa w Mańku
 3. Upewnij się, że Maniek (interfejs) jest włączony
 4. Playlista odtwarzacza powinna odświeżyć się automatycznie po paru sekundach
-
-1. Przejdź do folderu:  
-   `C:/xampp/htdocs/Praktyki-Maniek/example-videos`
-2. Wrzuć tam dowolny filmik `.mp4`.
-3. **Zalecane:** Zrób commit w **GitHub Desktop**, aby można było zsynchronizować zmiany na innych maszynach.
-
+   
 ---
 
 ## 🛠️ Ustawienie dowolnej maszyny jako **Maniek**
